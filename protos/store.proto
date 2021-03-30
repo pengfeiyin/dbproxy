@@ -1,6 +1,6 @@
 syntax = "proto3";
-
-package 	protos;
+option go_package = "../;protos";
+// package 	protos;
 
 message MongoStoreRequest {
   string condition = 1;
