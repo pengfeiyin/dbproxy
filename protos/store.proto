@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package 	protos;
+
+message MongoStoreRequest {
+  string condition = 1;
+  string data = 2;
+}
+message RedisStoreRequest {
+  string cmd = 1;
+}
+message StoreResponse {
+  string data = 1;
+}
