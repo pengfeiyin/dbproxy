@@ -146,7 +146,7 @@ func (m *MongoStore) Del(ctx context.Context, req *protos.MongoStoreRequest) (*p
 
 	defer func() { //捕获异常
 		if e := recover(); e != nil {
-			err = fmt.Errorf("MongoStore::FindAll panic:%+v", e)
+			err = fmt.Errorf("MongoStore::Del panic:%+v", e)
 		}
 	}()
 
