@@ -70,6 +70,7 @@ func (m *MongoStore) Connect() error {
 		return nil
 	}
 	var cfg *config.Config = pitaya.GetConfig()
+
 	if cfg != nil {
 		m.opts.RawURL = cfg.GetString("dataapp.store.mongo.host")
 	}

@@ -10,21 +10,19 @@ import (
 	"github.com/spf13/viper"
 	"github.com/topfreegames/pitaya"
 	"github.com/topfreegames/pitaya/acceptor"
-	"github.com/topfreegames/pitaya/cluster"
 	"github.com/topfreegames/pitaya/component"
-	"github.com/topfreegames/pitaya/modules"
 	"github.com/topfreegames/pitaya/serialize/json"
 )
 
 func main() {
 	address := flag.String("address", "0.0.0.0", "the address to listen")
 	port := flag.Int("port", 32222, "the port to listen")
-	svType := flag.String("type", "connector", "the server type")
-	isFrontend := flag.Bool("frontend", true, "if server is frontend")
-	sdPrefix := flag.String("sdprefix", "pitaya/", "prefix to discover other servers")
+	svType := flag.String("type", "dataapp", "the server type")
+	isFrontend := flag.Bool("frontend", false, "if server is frontend")
 	debug := flag.Bool("debug", false, "turn on debug logging")
-	grpc := flag.Bool("grpc", false, "turn on grpc")
-	grpcPort := flag.Int("grpcport", 3434, "the grpc server port")
+	// sdPrefix := flag.String("sdprefix", "pitaya/", "prefix to discover other servers")
+	// grpc := flag.Bool("grpc", false, "turn on grpc")
+	// grpcPort := flag.Int("grpcport", 3434, "the grpc server port")
 
 	flag.Parse()
 	defer pitaya.Shutdown()
@@ -46,32 +44,32 @@ func main() {
 		panic(err)
 	}
 
-	config.Set("pitaya.cluster.sd.etcd.prefix", *sdPrefix)
-	config.Set("pitaya.cluster.rpc.server.grpc.address", *address)
-	config.Set("pitaya.cluster.rpc.server.grpc.port", *grpcPort)
+	// config.Set("pitaya.cluster.sd.etcd.prefix", *sdPrefix)
+	// config.Set("pitaya.cluster.rpc.server.grpc.address", *address)
+	// config.Set("pitaya.cluster.rpc.server.grpc.port", *grpcPort)
 
-	if *grpc {
-		gs, err := cluster.NewGRPCServer(pitaya.GetConfig(), pitaya.GetServer(), pitaya.GetMetricsReporters())
-		if err != nil {
-			panic(err)
-		}
+	// if *grpc {//
+	// 	gs, err := cluster.NewGRPCServer(pitaya.GetConfig(), pitaya.GetServer(), pitaya.GetMetricsReporters())
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
 
-		bs := modules.NewETCDBindingStorage(pitaya.GetServer(), pitaya.GetConfig())
-		pitaya.RegisterModule(bs, "bindingsStorage")
+	// 	bs := modules.NewETCDBindingStorage(pitaya.GetServer(), pitaya.GetConfig())
+	// 	pitaya.RegisterModule(bs, "bindingsStorage")
 
-		gc, err := cluster.NewGRPCClient(
-			pitaya.GetConfig(),
-			pitaya.GetServer(),
-			pitaya.GetMetricsReporters(),
-			bs,
-			cluster.NewConfigInfoRetriever(pitaya.GetConfig()),
-		)
-		if err != nil {
-			panic(err)
-		}
-		pitaya.SetRPCServer(gs)
-		pitaya.SetRPCClient(gc)
-	}
+	// 	gc, err := cluster.NewGRPCClient(
+	// 		pitaya.GetConfig(),
+	// 		pitaya.GetServer(),
+	// 		pitaya.GetMetricsReporters(),
+	// 		bs,
+	// 		cluster.NewConfigInfoRetriever(pitaya.GetConfig()),
+	// 	)
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	pitaya.SetRPCServer(gs)
+	// 	pitaya.SetRPCClient(gc)
+	// }
 
 	pitaya.SetSerializer(json.NewSerializer())
 	if *isFrontend {

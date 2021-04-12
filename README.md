@@ -20,3 +20,6 @@ dataapp服务db采用mongo。仅支持单机模式
 - 同步插入Mongo func MongoAdd(para QueryPara, dataVal []interface{}) (err error) 
 - 异步写Mongo func PublishMsg(opt uint, para QueryPara, val interface{}) (err error) 
 - redis操作 func RedisDo(args ...interface{}) (result interface{}, err error) 
+
+dataaapp 后端服务启动命令 dataapp -type [dataapp] -port [32222]  -frontend [false] -debug [true]
+如测试有需要启动前端服：dataapp -type connector -port 32223  -frontend true -debug true
