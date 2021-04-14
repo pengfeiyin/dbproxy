@@ -24,3 +24,11 @@ dataapp服务db采用mongo。仅支持单机模式
 dataaapp 后端服务启动命令 dataapp -type [dataapp] -port [32222]  -frontend [false] -debug [true]
 
 如测试有需要启动前端服：dataapp -type connector -port 32223  -frontend true -debug true
+
+单元测试：
+- 使用pitaya-cli做测试，启动前端服、后端服务。connect localhost:32222 、request connector.connector.del
+-  用agent_test.go文件，使用go test
+
+压力测试：
+-  用agent_test.go文件，使用go test 做benchmark
+

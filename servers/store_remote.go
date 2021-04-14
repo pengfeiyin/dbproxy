@@ -58,7 +58,6 @@ func (m *MongoStore) FindOne(ctx context.Context, req *protos.MongoStoreRequest)
 	if err = mongo.S().FindOne(condition.TblName, condition.DbName, filter, &result, options); err == nil {
 		reply.Data = string(dtype.ToJson(result))
 	}
-
 	return &reply, err
 }
 

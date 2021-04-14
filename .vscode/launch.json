@@ -16,7 +16,7 @@
             "name": "Launch connector",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
+            "mode": "debug",
             "program": "${workspaceFolder}/main.go",
             "cwd": "${workspaceFolder}",
             "env": {},

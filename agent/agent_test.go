@@ -52,6 +52,54 @@ func TestMongoGet(t *testing.T) {
 	}
 }
 
+func TestMongoDel(t *testing.T) {
+	c := client.New(logrus.FatalLevel)
+	if err := c.ConnectTo(fmt.Sprintf("%s:%d", "localhost", 32222)); err != nil {
+		panic(err)
+	}
+
+	_, err := c.SendRequest("connector.connector.del", nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func TestMongoSet(t *testing.T) {
+	c := client.New(logrus.FatalLevel)
+	if err := c.ConnectTo(fmt.Sprintf("%s:%d", "localhost", 32222)); err != nil {
+		panic(err)
+	}
+
+	_, err := c.SendRequest("connector.connector.set", nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func TestMongoAdd(t *testing.T) {
+	c := client.New(logrus.FatalLevel)
+	if err := c.ConnectTo(fmt.Sprintf("%s:%d", "localhost", 32222)); err != nil {
+		panic(err)
+	}
+
+	_, err := c.SendRequest("connector.connector.add", nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func TestRedisDo(t *testing.T) {
+	c := client.New(logrus.FatalLevel)
+	if err := c.ConnectTo(fmt.Sprintf("%s:%d", "localhost", 32222)); err != nil {
+		panic(err)
+	}
+
+	_, err := c.SendRequest("connector.connector.redisdo", nil)
+
+	if err != nil {
+		panic(err)
+	}
+}
 func BenchmarkCreateClient(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -69,7 +117,7 @@ func BenchmarkCreateClient(b *testing.B) {
 func BenchmarkMongoGet(b *testing.B) {
 	clients := getClients(1, 32222)
 	b.ResetTimer()
-	b.N = 10000
+	b.N = 1000
 	for i := 0; i < b.N; i++ {
 		_, err := clients[0].SendRequest("connector.connector.get", nil)
 		if err != nil {

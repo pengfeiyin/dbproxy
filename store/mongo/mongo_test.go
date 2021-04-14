@@ -2,22 +2,25 @@ package mongo
 
 import (
 	"fmt"
+	"log"
 	"testing"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func TestStore(t *testing.T) {
 	S().Connect()
 
 	//获取单条
-	// result := bson.M{}
-	// filter := bson.M{"id": 201}
+	result := bson.M{}
+	filter := bson.M{"id": 201}
 
-	// err := S().FindOne("tbl_region", "game_dev22", filter, result)
-	// log.Println(result, err)
+	err := S().FindOne("tbl_region", "game_dev22", filter, result)
+	log.Println(result, err)
 
 	//获取全部
 	// var results []bson.M
-	// err = S().FindAll("tbl_region", "game_dev22", nil, &results, nil)
+	// err := S().FindAll("tbl_region", "game_dev22", nil, &results, nil)
 	// log.Println(results, err)
 	// for _, value := range results {
 	// 	log.Println(value)

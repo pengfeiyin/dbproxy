@@ -6,6 +6,7 @@ import (
 	"dataapp/protos"
 	"dataapp/util/dtype"
 	"encoding/json"
+	"log"
 
 	"github.com/topfreegames/pitaya/component"
 )
@@ -28,10 +29,9 @@ func (c *Connector) Get(ctx context.Context) (*protos.StoreResponse, error) {
 		// KeyName: "id",
 		// Key:     201,
 	}
-	para.Filter["id"] = &agent.Filter{Val: 203}
-
+	para.Filter["id"] = &agent.Filter{Val: 201}
 	var result interface{}
-	err := agent.MongoGet(para, result)
+	err := agent.MongoGet(para, &result)
 	reply.Data = string(dtype.ToJson(result))
 
 	// var results []interface{}
@@ -45,12 +45,12 @@ func (c *Connector) Get(ctx context.Context) (*protos.StoreResponse, error) {
 
 	// redisKey := fmt.Sprintf("%s.%s.%d", para.DbName, para.TblName, 203)
 	// redis.S().Do("set", redisKey, 2)
+	log.Println(reply.Data)
 
-	// redis.S().HSetStruct(redisKey, result)
 	return &reply, err
 }
 
-func (c *Connector) RedisDo(ctx context.Context) (*protos.StoreResponse, error) {
+func (c *Connector) RedisDo(ctx context.Context, req *protos.MongoStoreRequest) (*protos.StoreResponse, error) {
 	reply := protos.StoreResponse{}
 
 	result, err := agent.RedisDo("hgetall", "game_dev22.tbl_region.203")
@@ -64,7 +64,7 @@ func (c *Connector) RedisDo(ctx context.Context) (*protos.StoreResponse, error) 
 	return &reply, err
 }
 
-func (c *Connector) Set(ctx context.Context) (*protos.StoreResponse, error) {
+func (c *Connector) Set(ctx context.Context, req *protos.MongoStoreRequest) (*protos.StoreResponse, error) {
 	reply := protos.StoreResponse{}
 	para := agent.QueryPara{
 		DbName:  "game_dev22",
@@ -72,7 +72,7 @@ func (c *Connector) Set(ctx context.Context) (*protos.StoreResponse, error) {
 		Filter:  map[string]*agent.Filter{},
 	}
 
-	para.Filter["id"] = &agent.Filter{Val: 203}
+	para.Filter["id"] = &agent.Filter{Val: 201}
 	err := agent.MongoSet(para, nil)
 	return &reply, err
 }
@@ -84,7 +84,7 @@ func (c *Connector) Del(ctx context.Context) (*protos.StoreResponse, error) {
 		TblName: "tbl_region",
 		Filter:  map[string]*agent.Filter{},
 	}
-	para.Filter["id"] = &agent.Filter{Val: 203}
+	para.Filter["id"] = &agent.Filter{Val: 201}
 
 	err := agent.MongoDel(para)
 	return &reply, err
